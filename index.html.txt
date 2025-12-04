@@ -1,0 +1,1463 @@
+<!doctype html>
+<html lang="fr">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie IMC - Préparation Projet</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', 'Cairo', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #2c2c2c;
+      background: linear-gradient(135deg, #0c1445 0%, #1a2a6c 100%);
+      height: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    
+    html {
+      height: 100%;
+    }
+    
+    .app-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.2rem 3%;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+    
+    .logo-image {
+      width: 70px;
+      height: auto;
+      object-fit: contain;
+    }
+    
+    .logo-text h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a2a6c;
+      letter-spacing: 0.05em;
+    }
+    
+    .logo-text p {
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 300;
+    }
+    
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.8rem;
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-align: right;
+      font-size: 0.8rem;
+    }
+    
+    .contact-info a {
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .contact-info a:hover {
+      color: #1a2a6c;
+    }
+    
+    .contact-label {
+      font-weight: 600;
+      color: #1a2a6c;
+      margin-bottom: 0.1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .breadcrumb-item {
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .breadcrumb-item:hover {
+      color: #1a2a6c;
+    }
+    
+    .breadcrumb-separator {
+      color: #ccc;
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 3% 3%;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-bottom: 4rem;
+    }
+    
+    /* Views */
+    .view {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .view.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Process Steps Banner */
+    .process-steps {
+        display: flex;
+        justify-content: space-around;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .process-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        text-align: center;
+        flex: 1;
+        position: relative;
+    }
+
+    .process-step:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        opacity: 0.5;
+    }
+
+    .step-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+        background: rgba(255,255,255,0.15);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .step-text h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.2rem;
+        font-weight: 500;
+    }
+
+    .step-text p {
+        font-size: 0.75rem;
+        opacity: 0.8;
+    }
+
+    /* Section Title & Inspiration */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    
+    .section-title p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      color: white;
+    }
+
+    .inspirational-quote {
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .promo-banner {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    }
+
+    .promo-banner span {
+      font-size: 1.4rem;
+      display: block;
+      margin-top: 0.3rem;
+      font-weight: 800;
+    }
+    
+    /* Grid Layouts */
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+    
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 3.5rem;
+    }
+
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 3.5rem;
+    }
+    
+    /* Cards Common */
+    .room-card, .theme-card, .variant-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    .room-card:hover, .theme-card:hover, .variant-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+    
+    /* Room Card Specifics */
+    .room-card.selected {
+      border: 3px solid #1a2a6c;
+      transform: translateY(-5px);
+    }
+    
+    .selection-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #1a2a6c;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .promo-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+    }
+    
+    .room-image {
+      height: 240px;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .room-pattern svg {
+      width: 70%;
+      height: 70%;
+      opacity: 0.5;
+      transition: transform 0.5s;
+    }
+
+    .room-card:hover .room-pattern svg {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+
+    .room-stats {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #1a2a6c;
+    }
+    
+    .room-info {
+      padding: 1.5rem;
+    }
+    
+    .room-info h3 {
+      font-size: 1.3rem;
+      color: #2c2c2c;
+      margin-bottom: 0.3rem;
+    }
+    
+    .room-info p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .room-pricing {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 0.8rem;
+      background: #f0f7f1;
+      border-radius: 10px;
+    }
+
+    .price-old {
+      font-size: 0.9rem;
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .price-new {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2e7d32;
+    }
+
+    .price-save {
+      margin-left: auto;
+      background: white;
+      color: #ff6b6b;
+      padding: 0.2rem 0.6rem;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid #ff6b6b;
+    }
+
+    .room-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .room-feature-tag {
+      background: #f5f5f5;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #666;
+    }
+    
+    /* Theme Cards */
+    .theme-header {
+      padding: 3rem 2rem;
+      color: white;
+      text-align: center;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      position: relative;
+    }
+
+    .theme-icon-large {
+      font-size: 3.5rem;
+      margin-bottom: 0.8rem;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+
+    .theme-header h3 {
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0.2rem;
+    }
+
+    .theme-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-weight: 300;
+      z-index: 1;
+      font-style: italic;
+    }
+    
+    .theme-body {
+      padding: 2rem;
+    }
+    
+    .theme-description {
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      min-height: 3em;
+    }
+
+    .theme-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #fcfcfc;
+      border: 1px solid #eee;
+      border-radius: 10px;
+    }
+
+    .theme-detail-item {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    /* Variant Cards */
+    .variant-image {
+      height: 260px;
+      background: #f5f5f5;
+    }
+
+    .variant-moodboard {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+    }
+
+    .moodboard-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    .moodboard-large {
+      grid-column: span 2;
+      grid-row: span 2;
+      font-size: 3.5rem;
+    }
+    
+    .variant-content {
+      padding: 2rem;
+    }
+    
+    .variant-content h4 {
+      font-size: 1.5rem;
+      color: #2c2c2c;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .variant-content p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .variant-inspiration {
+      margin-bottom: 1.5rem;
+    }
+
+    .variant-inspiration h5 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 0.8rem;
+    }
+
+    .inspiration-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .inspiration-item {
+      background: white;
+      border: 1px solid #eee;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    
+    .color-palette {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    
+    .color-dot {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.05);
+      cursor: help;
+      transition: transform 0.2s;
+    }
+
+    .color-dot:hover {
+      transform: scale(1.2);
+    }
+
+    .cta-button {
+      margin-top: 1.5rem;
+      padding: 1.1rem 1.5rem;
+      background: linear-gradient(135deg, #1a2a6c 0%, #0c1445 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(26, 42, 108, 0.25);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(26, 42, 108, 0.35);
+    }
+    
+    /* Navigation Buttons */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(5px);
+    }
+    
+    .back-button:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateX(-5px);
+    }
+    
+    .continue-button {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      background: linear-gradient(135deg, #1a2a6c 0%, #0c1445 100%);
+      color: white;
+      padding: 1.1rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .continue-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    }
+    
+    .selection-count {
+      background: white;
+      color: #1a2a6c;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    /* Message Modal */
+    .message-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(12, 20, 69, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    
+    .message-modal.active {
+      display: flex;
+    }
+    
+    .message-modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 3.5rem;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .message-modal h2 {
+      color: #1a2a6c;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .modal-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 2.5rem;
+    }
+
+    .selection-summary {
+      background: #f8f9fa;
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      border: 1px solid #eee;
+    }
+
+    .summary-item {
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      border-left: 5px solid #1a2a6c;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .summary-item h4 {
+      color: #1a2a6c;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .summary-item p {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0.2rem 0;
+    }
+
+    .total-price {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      padding: 1.5rem;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .total-price h3 {
+      color: #2e7d32;
+      font-size: 2.2rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .message-form-group textarea {
+      width: 100%;
+      padding: 1.2rem;
+      border: 2px solid #eee;
+      border-radius: 12px;
+      font-size: 1rem;
+      min-height: 120px;
+      transition: border-color 0.3s;
+      background: #fbfbfb;
+    }
+    
+    .message-form-group textarea:focus {
+      outline: none;
+      border-color: #1a2a6c;
+      background: white;
+    }
+    
+    .message-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .message-btn {
+      padding: 1.1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      transition: transform 0.2s;
+    }
+    
+    .message-btn-whatsapp {
+      background: #25d366;
+      color: white;
+    }
+
+    .message-btn-email {
+      background: #ea4335;
+      color: white;
+    }
+
+    .message-btn-sms {
+      background: #007bff;
+      color: white;
+    }
+    
+    .message-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .container {
+        padding-bottom: 6rem;
+      }
+      
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+
+      .inspirational-quote {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+      
+      .process-steps {
+          display: none;
+      }
+      
+      .rooms-grid, .themes-grid, .variants-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .theme-body, .variant-content {
+        padding: 1.5rem;
+      }
+      
+      .continue-button {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        left: 1.5rem;
+        width: auto;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .message-modal-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <!-- Header -->
+   <header class="header">
+    <div class="header-content">
+     <div class="logo-section">
+      <img src="https://www.interior-modelling-concept.com/logo.png" alt="IMC Logo" class="logo-image" onerror="this.style.display='none';">
+      <div class="logo-text">
+       <h1 id="app-title">IMC - Architecture</h1>
+       <p id="app-subtitle">Conception d'espaces & Décoration</p>
+      </div>
+     </div>
+     <div class="header-right">
+      <div class="contact-info">
+       <div class="contact-label">STUDIO PARIS</div>
+       <a href="mailto:contact@interior-modelling-concept.com">contact@interior-modelling-concept.com</a> 
+       <a href="tel:+33184180240">+33 1 84 18 02 40</a>
+      </div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+     </div>
+    </div>
+   </header>
+   
+   <!-- Main Content -->
+   <main class="main-content">
+    <div class="container">
+    
+     <!-- Rooms View -->
+     <div id="rooms-view" class="view active">
+      <div class="section-header">
+       <div class="section-title">
+        <h2>Préparez votre Projet</h2>
+        <div class="inspirational-quote">"Votre transformation commence ici."</div>
+       </div>
+      </div>
+
+      <div class="promo-banner">
+       ✨ OFFRE DE LANCEMENT : -50% sur l'étude de votre projet ! <span>Préparez votre dossier dès maintenant</span>
+      </div>
+
+      <!-- Process Steps (Hidden on Mobile) -->
+      <div class="process-steps">
+       <div class="process-step">
+        <div class="step-icon">1</div>
+        <div class="step-text">
+         <h4>Sélection</h4>
+         <p>Vos pièces</p>
+        </div>
+       </div>
+       <div class="process-step">
+        <div class="step-icon">2</div>
+        <div class="step-text">
+         <h4>Style</h4>
+         <p>Vos inspirations</p>
+        </div>
+       </div>
+       <div class="process-step">
+        <div class="step-icon">3</div>
+        <div class="step-text">
+         <h4>Brief</h4>
+         <p>Envoi du dossier</p>
+        </div>
+       </div>
+       <div class="process-step">
+        <div class="step-icon">4</div>
+        <div class="step-text">
+         <h4>Visio</h4>
+         <p>Rendez-vous expert</p>
+        </div>
+       </div>
+      </div>
+      
+      <div class="rooms-grid" id="rooms-grid"></div>
+     </div>
+
+     <!-- Themes View -->
+     <div id="themes-view" class="view">
+      <button class="back-button" onclick="navigateToRooms()">← Retour aux pièces</button>
+      <div class="section-header">
+       <div class="section-title">
+        <h2 id="themes-title">Quel univers pour votre pièce ?</h2>
+        <div class="inspirational-quote">"Imaginez votre futur intérieur..."</div>
+       </div>
+      </div>
+      <div class="themes-grid" id="themes-grid"></div>
+     </div>
+
+     <!-- Variants View -->
+     <div id="variants-view" class="view">
+      <button class="back-button" onclick="navigateToThemes()">← Retour aux styles</button>
+      <div class="section-header">
+       <div class="section-title">
+        <h2 id="variants-title">Affinez l'ambiance</h2>
+        <div class="inspirational-quote">"Donnez vie à un espace qui vous ressemble."</div>
+       </div>
+      </div>
+      <div class="variants-grid" id="variants-grid"></div>
+     </div>
+     
+    </div>
+   </main>
+  </div>
+
+  <!-- Message Modal -->
+  <div id="message-modal" class="message-modal">
+   <div class="message-modal-content">
+    <h2>📅 Récapitulatif & Réservation</h2>
+    <p class="modal-subtitle">Votre dossier de pré-étude est prêt. Envoyez ce brief pour planifier votre visioconférence avec l'architecte.</p>
+    
+    <div class="selection-summary" id="selection-summary"></div>
+    
+    <div class="total-price">
+     <h3 id="total-price-display">0 €</h3>
+     <p>Budget étude (Offre -50%)</p>
+    </div>
+    
+    <div class="message-form-group">
+     <label for="user-message" style="display:block; margin-bottom:0.5rem; font-weight:600; color:#1a2a6c">💬 Vos disponibilités</label> 
+     <textarea id="user-message" placeholder="Indiquez vos disponibilités pour la visio (ex: Lundi matin) ou posez vos premières questions..."></textarea>
+    </div>
+    
+    <div class="message-buttons">
+     <button class="message-btn message-btn-secondary" onclick="closeMessageModal()" style="background:#f0f0f0; color:#666">Modifier mes choix</button> 
+     <button class="message-btn message-btn-whatsapp" onclick="sendWhatsAppMessage()"> <span style="font-size: 1.4rem;">📱</span> WhatsApp </button>
+     <button class="message-btn message-btn-sms" onclick="sendSMSMessage()"> <span style="font-size: 1.4rem;">💬</span> SMS </button>
+     <button class="message-btn message-btn-email" onclick="sendEmailMessage()"> <span style="font-size: 1.4rem;">📧</span> Email </button>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const defaultConfig = {
+      background_gradient_start: "#0c1445",
+      background_gradient_end: "#1a2a6c",
+      card_background: "#ffffff",
+      text_color: "#2c2c2c",
+      accent_color: "#1a2a6c",
+      font_family: "Inter",
+    };
+
+    const rooms = [
+      { id: 1, name: "Pièce de Vie", icon: "🏡", description: "L'espace central de votre maison.", image: "", price: 159, pricePromo: 79.50, duration: "45min", pattern: "sofa", features: ["Séjour", "Salon", "Réception"] },
+      { id: 2, name: "Salon", icon: "🛋️", description: "Cocon de confort et de détente.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "living", features: ["Cosy", "TV", "Détente"] },
+      { id: 3, name: "Salle à Manger", icon: "🍽️", description: "Lieu de partage et convivialité.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "dining", features: ["Repas", "Famille", "Réception"] },
+      { id: 4, name: "Cuisine", icon: "👨‍🍳", description: "Le cœur fonctionnel du foyer.", image: "", price: 99, pricePromo: 49.50, duration: "45min", pattern: "kitchen", features: ["Technique", "Design", "Ergonomie"] },
+      { id: 5, name: "Entrée", icon: "🚪", description: "La première impression.", image: "", price: 79, pricePromo: 39.50, duration: "30min", pattern: "door", features: ["Rangement", "Accueil", "Style"] },
+      { id: 6, name: "Salle de Bain", icon: "🛁", description: "Votre espace bien-être.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "bath", features: ["Eau", "Relaxation", "Technique"] },
+      { id: 7, name: "Suite Parentale", icon: "💑", description: "Chambre + Dressing + Bain.", image: "", price: 159, pricePromo: 79.50, duration: "45min", pattern: "bed", features: ["Luxe", "Intimité", "Complet"] },
+      { id: 8, name: "Chambre", icon: "🛏️", description: "Refuge personnel et apaisant.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "bedroom", features: ["Repos", "Calme", "Nuit"] },
+      { id: 9, name: "Chambre Enfant", icon: "🎨", description: "Un univers ludique et évolutif.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "toys", features: ["Jeu", "Travail", "Sommeil"] },
+      { id: 10, name: "Dressing", icon: "👗", description: "Organisation et élégance.", image: "", price: 59, pricePromo: 29.50, duration: "30min", pattern: "closet", features: ["Rangement", "Sur-mesure", "Mode"] },
+      { id: 13, name: "Bureau", icon: "💼", description: "Espace productif et inspirant.", image: "", price: 99, pricePromo: 49.50, duration: "30min", pattern: "desk", features: ["Télétravail", "Focus", "Pro"] },
+      { id: 17, name: "Extérieur", icon: "🌿", description: "Terrasse, Balcon ou Jardin.", image: "", price: 139, pricePromo: 69.50, duration: "45min", pattern: "terrace", features: ["Nature", "Détente", "Été"] }
+    ];
+
+    const themes = [
+      { 
+        id: 1, 
+        name: "Zen & Nature", 
+        icon: "🌿", 
+        subtitle: "L'art de la sérénité",
+        description: "Un havre de paix inspiré de la nature. Matériaux organiques et lignes douces.", 
+        image: "", 
+        tags: ["Épuré", "Végétal", "Apaisant"],
+        ambiance: "🧘 Calme",
+        materials: "🪵 Bois brut",
+        lighting: "💡 Douce",
+        budget: "💰 Moyen"
+      },
+      { 
+        id: 2, 
+        name: "Design Moderne", 
+        icon: "✨", 
+        subtitle: "L'élégance du présent",
+        description: "Lignes nettes et sophistication minimaliste pour un intérieur intemporel.", 
+        image: "", 
+        tags: ["Graphique", "Chic", "Net"],
+        ambiance: "🎭 Élégant",
+        materials: "⚡ Verre & Métal",
+        lighting: "💡 Design",
+        budget: "💰💰 Élevé"
+      },
+      { 
+        id: 3, 
+        name: "Maison de Famille", 
+        icon: "🌾", 
+        subtitle: "Charme et Authenticité",
+        description: "L'esprit campagne chic, chaleureux et accueillant, aux textures reconfortantes.", 
+        image: "", 
+        tags: ["Douceur", "Vintage", "Cosy"],
+        ambiance: "🏡 Chaleur",
+        materials: "🪨 Pierre",
+        lighting: "🕯️ Tamisée",
+        budget: "💰 Moyen"
+      },
+      { 
+        id: 4, 
+        name: "Scandinave", 
+        icon: "❄️", 
+        subtitle: "Lumière et Fonction",
+        description: "Le style Hygge : simplicité fonctionnelle, bois clairs et luminosité maximale.", 
+        image: "", 
+        tags: ["Lumineux", "Pratique", "Bois"],
+        ambiance: "☕ Cocooning",
+        materials: "🌲 Bois clair",
+        lighting: "☀️ Naturelle",
+        budget: "💰 Accessible"
+      },
+      { 
+        id: 7, 
+        name: "Prestige", 
+        icon: "💎", 
+        subtitle: "Le luxe absolu",
+        description: "L'excellence des matériaux nobles et du raffinement pour un espace d'exception.", 
+        image: "", 
+        tags: ["Luxe", "Or", "Marbre"],
+        ambiance: "👑 Exclusif",
+        materials: "🏛️ Nobles",
+        lighting: "✨ Cristal",
+        budget: "💰💰💰 Premium"
+      },
+      { 
+        id: 8, 
+        name: "Industriel", 
+        icon: "🏭", 
+        subtitle: "Esprit Loft",
+        description: "Le caractère brut : métal noir, briques apparentes et grands volumes ouverts.", 
+        image: "", 
+        tags: ["Urbain", "Brut", "Loft"],
+        ambiance: "🏙️ Atelier",
+        materials: "⚙️ Acier",
+        lighting: "💡 Edison",
+        budget: "💰 Moyen"
+      }
+    ];
+
+    const variantTemplates = [
+      { 
+        name: "Palette Neutre", 
+        icon: "⚪", 
+        description: "Harmonie naturelle pour une sérénité absolue et une lumière sublimée.", 
+        colors: ["#ffffff", "#f5f5dc", "#d3d3d3", "#c0c0c0", "#a89f91"],
+        colorNames: ["Blanc", "Sable", "Gris", "Argent", "Taupe"],
+        materials: ["Lin", "Coton", "Laine", "Chêne"],
+        inspirations: ["Minimalisme", "Slow Life"],
+        benefits: ["Intemporel", "Lumineux", "Apaisant"]
+      },
+      { 
+        name: "Tons Chauds", 
+        icon: "☀️", 
+        description: "Nuances solaires et enveloppantes pour une atmosphère conviviale.", 
+        colors: ["#f5deb3", "#daa520", "#cd853f", "#d2691e", "#8b4513"],
+        colorNames: ["Blé", "Or", "Terre", "Ocre", "Caramel"],
+        materials: ["Velours", "Cuir", "Terre cuite"],
+        inspirations: ["Sud", "Automne"],
+        benefits: ["Chaleureux", "Accueillant", "Dynamique"]
+      },
+      { 
+        name: "Caractère", 
+        icon: "🎩", 
+        description: "Contrastes forts et couleurs profondes pour un style affirmé.", 
+        colors: ["#2c3e50", "#e74c3c", "#ecf0f1", "#34495e", "#1a2a6c"],
+        colorNames: ["Bleu Nuit", "Rouge", "Blanc", "Ardoise", "Indigo"],
+        materials: ["Laiton", "Marbre noir", "Noyer"],
+        inspirations: ["Art Déco", "Masculin"],
+        benefits: ["Unique", "Théâtral", "Premium"]
+      },
+      { 
+        name: "Végétal", 
+        icon: "🌱", 
+        description: "Fraîcheur organique et retour aux sources.", 
+        colors: ["#8b7355", "#6b8c42", "#c4a484", "#e6d5b8", "#556b2f"],
+        colorNames: ["Bois", "Vert", "Sable", "Ivoire", "Olive"],
+        materials: ["Rotin", "Plantes", "Jute"],
+        inspirations: ["Jungle", "Bohème"],
+        benefits: ["Respirant", "Naturel", "Zen"]
+      }
+    ];
+
+    // SVG Patterns
+    const roomPatterns = {
+      sofa: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="80" width="120" height="60" rx="10" fill="#8b7355" opacity="0.7"/><rect x="35" y="70" width="130" height="70" rx="15" fill="none" stroke="#1a2a6c" stroke-width="3"/></svg>`,
+      living: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="50" y="90" width="100" height="50" rx="5" fill="#c4a484" opacity="0.7"/><path d="M 80 140 L 80 160 M 120 140 L 120 160" stroke="#1a2a6c" stroke-width="4"/></svg>`,
+      dining: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="50" fill="none" stroke="#1a2a6c" stroke-width="3"/><circle cx="100" cy="60" r="8" fill="#8b7355"/><circle cx="130" cy="80" r="8" fill="#8b7355"/><circle cx="130" cy="120" r="8" fill="#8b7355"/><circle cx="100" cy="140" r="8" fill="#8b7355"/><circle cx="70" cy="120" r="8" fill="#8b7355"/><circle cx="70" cy="80" r="8" fill="#8b7355"/></svg>`,
+      kitchen: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="50" y="60" width="100" height="80" rx="5" fill="#f5f5f5" stroke="#1a2a6c" stroke-width="2"/><rect x="60" y="70" width="35" height="25" rx="2" fill="#87ceeb" opacity="0.5"/><rect x="105" y="70" width="35" height="25" rx="2" fill="#87ceeb" opacity="0.5"/></svg>`,
+      door: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="70" y="40" width="60" height="120" rx="3" fill="#8b7355" stroke="#1a2a6c" stroke-width="3"/><circle cx="110" cy="100" r="4" fill="#daa520"/></svg>`,
+      bath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="110" rx="60" ry="30" fill="#b0e0e6" opacity="0.6"/><path d="M 40 110 Q 40 130 50 135 L 150 135 Q 160 130 160 110" fill="none" stroke="#1a2a6c" stroke-width="3"/></svg>`,
+      bed: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="90" width="120" height="50" rx="5" fill="#c4a484" opacity="0.7"/><rect x="40" y="70" width="120" height="20" rx="3" fill="#8b7355" opacity="0.8"/></svg>`,
+      bedroom: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="50" y="95" width="100" height="40" rx="3" fill="#d3d3d3" opacity="0.7"/><rect x="50" y="80" width="100" height="15" rx="2" fill="#8b7355" opacity="0.8"/></svg>`,
+      toys: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="70" cy="80" r="15" fill="#ff6b6b" opacity="0.7"/><rect x="80" y="110" width="40" height="40" fill="#ffd93d" opacity="0.7"/></svg>`,
+      closet: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="50" y="50" width="100" height="100" fill="#8b7355" opacity="0.3" stroke="#1a2a6c" stroke-width="2"/><line x1="100" y1="50" x2="100" y2="150" stroke="#1a2a6c" stroke-width="2"/></svg>`,
+      desk: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="90" width="120" height="10" fill="#8b7355" opacity="0.8"/><rect x="45" y="100" width="10" height="50" fill="#1a2a6c" opacity="0.7"/><rect x="145" y="100" width="10" height="50" fill="#1a2a6c" opacity="0.7"/></svg>`,
+      terrace: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="90" width="120" height="60" rx="5" fill="#8fbc8f" opacity="0.5"/><rect x="90" y="110" width="20" height="30" fill="#8b4513" opacity="0.7"/></svg>`,
+    };
+
+    let selectedRooms = [];
+    let currentTheme = null;
+    let roomSelections = [];
+    let currentRoomIndex = 0;
+
+    // Navigation Logic
+    function updateBreadcrumb() {
+      const breadcrumb = document.getElementById('breadcrumb');
+      let html = '<span class="breadcrumb-item" onclick="navigateToRooms()">Accueil</span>';
+      
+      if (selectedRooms.length > 0) {
+        html += '<span class="breadcrumb-separator">/</span>';
+        html += `<span class="breadcrumb-item">${selectedRooms.length} pièce(s)</span>`;
+      }
+      
+      breadcrumb.innerHTML = html;
+    }
+
+    // Render Functions
+    function renderRooms() {
+      const grid = document.getElementById('rooms-grid');
+      grid.innerHTML = rooms.map(room => {
+        const isSelected = selectedRooms.some(r => r.id === room.id);
+        const selectionIndex = selectedRooms.findIndex(r => r.id === room.id);
+        const pattern = roomPatterns[room.pattern] || '';
+        
+        return `
+          <div class="room-card ${isSelected ? 'selected' : ''}" onclick="toggleRoomSelection(${room.id})">
+            ${isSelected ? `<div class="selection-badge">${selectionIndex + 1}</div>` : ''}
+            <div class="promo-badge">-50%</div>
+            <div class="room-image">
+              <div class="room-pattern">${pattern}</div>
+              <div class="room-stats">⏱️ ${room.duration}</div>
+            </div>
+            <div class="room-info">
+              <h3>${room.icon} ${room.name}</h3>
+              <p>${room.description}</p>
+              <div class="room-pricing">
+                <div>
+                  <span class="price-old">${room.price}€</span>
+                  <span class="price-new">${room.pricePromo}€</span>
+                </div>
+                <span class="price-save">Économisez ${(room.price - room.pricePromo).toFixed(0)}€</span>
+              </div>
+              <div class="room-features">
+                ${room.features.map(f => `<span class="room-feature-tag">${f}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      updateContinueButton();
+    }
+    
+    function updateContinueButton() {
+      let existingButton = document.getElementById('continue-button');
+      if (selectedRooms.length > 0) {
+        if (!existingButton) {
+          const button = document.createElement('button');
+          button.id = 'continue-button';
+          button.className = 'continue-button';
+          button.onclick = navigateToThemes;
+          document.body.appendChild(button);
+          existingButton = button;
+        }
+        existingButton.innerHTML = `Choisir le style <span class="selection-count">${selectedRooms.length}</span> →`;
+      } else {
+        if (existingButton) existingButton.remove();
+      }
+    }
+
+    function renderThemes() {
+      const grid = document.getElementById('themes-grid');
+      grid.innerHTML = themes.map(theme => {
+        const bgStyle = `background: linear-gradient(135deg, #1a2a6c 0%, #333 100%)`;
+        return `
+          <div class="theme-card" onclick="selectTheme(${theme.id})">
+            <div class="theme-header" style="${bgStyle}">
+              <div class="theme-icon-large">${theme.icon}</div>
+              <h3>${theme.name}</h3>
+              <p class="theme-subtitle">${theme.subtitle}</p>
+            </div>
+            <div class="theme-body">
+              <p class="theme-description">${theme.description}</p>
+              <div class="theme-details">
+                <div class="theme-detail-item">✨ ${theme.ambiance}</div>
+                <div class="theme-detail-item">🧱 ${theme.materials}</div>
+                <div class="theme-detail-item">${theme.lighting}</div>
+                <div class="theme-detail-item">${theme.budget}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderVariants() {
+      const currentRoom = selectedRooms[currentRoomIndex];
+      const grid = document.getElementById('variants-grid');
+      const isLastRoom = currentRoomIndex === selectedRooms.length - 1;
+      
+      grid.innerHTML = variantTemplates.map((template, index) => {
+        const moodboardCells = template.colors.slice(0, 9).map((color, i) => {
+          const isLarge = i === 0;
+          return `<div class="moodboard-cell ${isLarge ? 'moodboard-large' : ''}" style="background-color: ${color}"></div>`;
+        }).join('');
+        
+        return `
+          <div class="variant-card">
+            <div class="variant-image">
+              <div class="variant-moodboard">${moodboardCells}</div>
+            </div>
+            <div class="variant-content">
+              <h4>${template.icon} ${template.name}</h4>
+              <p>${template.description}</p>
+              
+              <div class="variant-inspiration">
+                <h5>🎨 Palette</h5>
+                <div class="color-palette">
+                  ${template.colors.map((color, i) => `<div class="color-dot" style="background-color: ${color}" title="${template.colorNames[i]}"></div>`).join('')}
+                </div>
+              </div>
+
+              <div class="variant-inspiration">
+                <h5>✨ Matières</h5>
+                <div class="inspiration-list">
+                  ${template.materials.map(mat => `<span class="inspiration-item">${mat}</span>`).join('')}
+                </div>
+              </div>
+
+              <button class="cta-button" onclick="selectVariant(${index})">
+                ${isLastRoom ? '✅ Valider mon projet' : '➡️ Pièce suivante'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Logic Functions
+    function toggleRoomSelection(roomId) {
+      const room = rooms.find(r => r.id === roomId);
+      const index = selectedRooms.findIndex(r => r.id === roomId);
+      if (index > -1) {
+        selectedRooms.splice(index, 1);
+      } else {
+        selectedRooms.push(room);
+      }
+      renderRooms();
+      updateBreadcrumb();
+    }
+
+    function selectTheme(themeId) {
+      currentTheme = themes.find(t => t.id === themeId);
+      showView('variants-view');
+      const currentRoom = selectedRooms[currentRoomIndex];
+      const progressText = selectedRooms.length > 1 ? ` (${currentRoomIndex + 1}/${selectedRooms.length})` : '';
+      document.getElementById('variants-title').textContent = `${currentTheme.name} - ${currentRoom.name}${progressText}`;
+      renderVariants();
+    }
+
+    function selectVariant(variantIndex) {
+      const currentRoom = selectedRooms[currentRoomIndex];
+      const variant = variantTemplates[variantIndex];
+      
+      roomSelections.push({
+        room: currentRoom,
+        theme: currentTheme,
+        variant: variant
+      });
+      
+      if (currentRoomIndex < selectedRooms.length - 1) {
+        currentRoomIndex++;
+        currentTheme = null;
+        navigateToThemes();
+      } else {
+        showMessageModal();
+      }
+    }
+
+    function navigateToRooms() {
+      selectedRooms = [];
+      currentTheme = null;
+      roomSelections = [];
+      currentRoomIndex = 0;
+      showView('rooms-view');
+      renderRooms();
+      updateBreadcrumb();
+    }
+
+    function navigateToThemes() {
+      if (selectedRooms.length === 0) return;
+      currentTheme = null;
+      showView('themes-view');
+      const currentRoom = selectedRooms[currentRoomIndex];
+      const progressText = selectedRooms.length > 1 ? ` (${currentRoomIndex + 1}/${selectedRooms.length})` : '';
+      document.getElementById('themes-title').textContent = `Ambiance pour : ${currentRoom.name}${progressText}`;
+      renderThemes();
+    }
+
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      const continueBtn = document.getElementById('continue-button');
+      if (viewId === 'rooms-view') {
+          updateContinueButton();
+      } else if (continueBtn) {
+          continueBtn.remove();
+      }
+      window.scrollTo(0,0);
+    }
+
+    // Modal & Messaging Logic
+    function showMessageModal() {
+      const modal = document.getElementById('message-modal');
+      const summary = document.getElementById('selection-summary');
+      let totalPrice = 0;
+      let summaryHTML = '';
+      
+      roomSelections.forEach((selection, idx) => {
+        totalPrice += selection.room.pricePromo;
+        summaryHTML += `
+          <div class="summary-item">
+            <h4>${idx + 1}. ${selection.room.icon} ${selection.room.name}</h4>
+            <p>Style : <strong>${selection.theme.name}</strong> • Ambiance : <strong>${selection.variant.name}</strong></p>
+            <p style="font-size:0.8rem; color:#999">Tarif étude : ${selection.room.pricePromo} €</p>
+          </div>
+        `;
+      });
+      
+      summary.innerHTML = summaryHTML;
+      document.getElementById('total-price-display').textContent = `${totalPrice.toFixed(2)} €`;
+      modal.classList.add('active');
+    }
+
+    function closeMessageModal() {
+      document.getElementById('message-modal').classList.remove('active');
+    }
+
+    // --- SYSTEME D'ENVOI ROBUSTE ---
+
+    function buildMessage() {
+      let msg = "📅 DEMANDE DE PROJET IMC\n\n";
+      msg += "Voici les détails de ma pré-sélection :\n\n";
+      
+      roomSelections.forEach((selection, idx) => {
+        msg += `🔹 PIÈCE ${idx + 1} : ${selection.room.name}\n`;
+        msg += `   - Style : ${selection.theme.name}\n`;
+        msg += `   - Ambiance : ${selection.variant.name}\n`;
+        msg += `   - Budget étude : ${selection.room.pricePromo} €\n\n`;
+      });
+      
+      const totalPrice = roomSelections.reduce((sum, sel) => sum + sel.room.pricePromo, 0).toFixed(2);
+      msg += `💰 TOTAL ESTIMATIF ÉTUDE : ${totalPrice} €\n\n`;
+      
+      const userMessage = document.getElementById('user-message').value.trim();
+      if (userMessage) {
+        msg += `💬 MES DISPONIBILITÉS / NOTES :\n${userMessage}\n\n`;
+      }
+      
+      msg += "Merci de me recontacter pour fixer la visioconférence.";
+      return msg;
+    }
+
+    function sendWhatsAppMessage() {
+      const message = buildMessage();
+      const phoneNumber = '33618480211'; 
+      const encodedMsg = encodeURIComponent(message);
+      const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMsg}`;
+      window.open(url, '_blank');
+      setTimeout(() => { closeMessageModal(); navigateToRooms(); }, 1000);
+    }
+
+    function sendEmailMessage() {
+      const subject = "Demande de RDV Visio - Nouveau Projet";
+      let body = buildMessage();
+      const email = "contact@interior-modelling-concept.com";
+      const encodedBody = encodeURIComponent(body).replace(/%0A/g, '%0D%0A');
+      const encodedSubject = encodeURIComponent(subject);
+      window.location.href = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+      setTimeout(() => { closeMessageModal(); navigateToRooms(); }, 1000);
+    }
+
+    function sendSMSMessage() {
+      const message = buildMessage();
+      const phoneNumber = '+33618480211';
+      const encodedBody = encodeURIComponent(message);
+      const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const separator = isiOS ? '&' : '?';
+      window.location.href = `sms:${phoneNumber}${separator}body=${encodedBody}`;
+      setTimeout(() => { closeMessageModal(); navigateToRooms(); }, 1000);
+    }
+
+    // Init
+    renderRooms();
+    updateBreadcrumb();
+  </script>
+ </body>
+</html>
